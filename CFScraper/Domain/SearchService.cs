@@ -8,10 +8,10 @@ namespace CFScraper.Domain
 {
     class SearchService : ISearchService
     {
-        private IWebScraper _webScraper;
-        public SearchService(IWebScraper webScraper)
+        private ICustomForgeClient _customForgeClient;
+        public SearchService(ICustomForgeClient customForgeClient)
         {
-            _webScraper = webScraper;
+            _customForgeClient = customForgeClient;
         }
 
         public byte[] DownloadSong(Song song)

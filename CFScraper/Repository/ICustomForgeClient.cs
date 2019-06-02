@@ -5,9 +5,8 @@ using System.Text;
 
 namespace CFScraper.Repository
 {
-    interface IWebScraper
+    internal interface ICustomForgeClient
     {
-        void Login();
-        string SearchSongs(SearchOptions searchOptions);
+        string RequestSongJson(SearchOptions searchOptions);
     }
 }
