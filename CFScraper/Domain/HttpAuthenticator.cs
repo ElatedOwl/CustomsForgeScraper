@@ -52,5 +52,10 @@ namespace CFScraper.Domain
 
             return !onLoginPage;
         }
+
+        public bool Login()
+        {
+
+        }
     }
 }

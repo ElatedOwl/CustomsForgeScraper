@@ -3,6 +3,7 @@ using CFScraper.Domain;
 using System.Security;
 using System.Net.Http;
 using Moq;
+using CFScraper.Contracts.Constants;
 
 namespace CFScraperTests
 {
@@ -10,10 +11,15 @@ namespace CFScraperTests
     public class HttpAuthenticatorTests
     {
         [TestMethod]
+        public void IsAuthenticated_ReturnsTrue_ForSearchPage()
+        {
+            var isAuthenticated = TestUrlForAuthentication(CustomsForgeUrls.SEARCH_HANDLER);
+            Assert.IsTrue(isAuthenticated);
+        }
+        [TestMethod]
         public void IsAuthenticated_ReturnsFalse_ForLoginPage()
         {
-            const string LOGIN_URL = "https://customsforge.com/index.php?app=core&module=global&section=login";
-            var isAuthenticated = TestUrlForAuthentication(LOGIN_URL);
+            var isAuthenticated = TestUrlForAuthentication(CustomsForgeUrls.LOGIN_PAGE);
             Assert.IsFalse(isAuthenticated);
         }
 
