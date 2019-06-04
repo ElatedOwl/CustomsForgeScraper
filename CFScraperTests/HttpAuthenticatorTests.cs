@@ -3,7 +3,9 @@ using CFScraper.Domain;
 using System.Security;
 using System.Net.Http;
 using Moq;
+using Moq.Protected;
 using CFScraper.Contracts.Constants;
+using CFScraper.Domain.FormData;
 
 namespace CFScraperTests
 {
@@ -33,6 +35,51 @@ namespace CFScraperTests
             var httpAuthenticator = new HttpAuthenticator(null, null, null, null);
 
             return httpAuthenticator.IsAuthenticated(mockResponse);
+        }
+
+        [TestMethod]
+        public void Login_ReturnsFalse_OnFailedRequest()
+        {
+            var mockClientHandler = new MockHttpClient()
+            {
+                ResponseCode = System.Net.HttpStatusCode.BadRequest
+            };
+
+            var httpClient = mockClientHandler.GetMockClient();
+            var serializer = new FormDataSerializer();
+            var httpAuthenticator = new HttpAuthenticator(httpClient, serializer, "test", "test");
+
+            Assert.IsFalse(httpAuthenticator.Login());
+        }
+
+        [TestMethod]
+        public void Login_ReturnsFalse_OnFailedLogin()
+        {
+            var mockClientHandler = new MockHttpClient()
+            {
+                RequestMessage = new HttpRequestMessage(HttpMethod.Get, CustomsForgeUrls.LOGIN_PAGE)
+            };
+
+            var httpClient = mockClientHandler.GetMockClient();
+            var serializer = new FormDataSerializer();
+            var httpAuthenticator = new HttpAuthenticator(httpClient, serializer, "test", "test");
+
+            Assert.IsFalse(httpAuthenticator.Login());
+        }
+
+        [TestMethod]
+        public void Login_ReturnsTrue_OnSuccessfulLogin()
+        {
+            var mockClientHandler = new MockHttpClient()
+            {
+                RequestMessage = new HttpRequestMessage(HttpMethod.Get, CustomsForgeUrls.SEARCH_HANDLER)
+            };
+
+            var httpClient = mockClientHandler.GetMockClient();
+            var serializer = new FormDataSerializer();
+            var httpAuthenticator = new HttpAuthenticator(httpClient, serializer, "test", "test");
+
+            Assert.IsTrue(httpAuthenticator.Login());
         }
     }
 }
