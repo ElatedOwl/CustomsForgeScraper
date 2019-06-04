@@ -55,7 +55,7 @@ namespace CFScraper.Domain
 
         public bool Login()
         {
-
+            throw new NotImplementedException();
         }
     }
 }
