@@ -30,7 +30,7 @@ namespace CFScraperTests
                 RequestMessage = new HttpRequestMessage(HttpMethod.Get, url)
             };
 
-            var httpAuthenticator = new HttpAuthenticator(null, null, null);
+            var httpAuthenticator = new HttpAuthenticator(null, null, null, null);
 
             return httpAuthenticator.IsAuthenticated(mockResponse);
         }
